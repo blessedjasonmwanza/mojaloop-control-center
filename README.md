@@ -68,10 +68,10 @@ Before you begin, ensure you have the following installed:
 - Install jq and yq
 - [Ability to run sudo without password](https://linuxhandbook.com/sudo-without-password/)
 - Infrastructure: (Updating soon)
-    Bastion: 1vCPU, 1GB RAM, 10GB storage, 1 EIP
-    Gitlab: 2vCPU, 8GB RAM, 40GB storage + 100GB extra storage, 1 EIP
-    Docker: 8vCPU, 32GB RAM, 100GB storage, 1 EIP
-    Netmaker: 2vCPU, 2GB RAM, 10GB storage, 1 EIP
+    - Bastion: 1vCPU, 1GB RAM, 10GB storage, 1 EIP
+    - Gitlab: 2vCPU, 8GB RAM, 40GB storage + 100GB extra storage, 1 EIP
+    - Docker: 8vCPU, 32GB RAM, 100GB storage, 1 EIP
+    - Netmaker: 2vCPU, 2GB RAM, 10GB storage, 1 EIP
 ## Directory Structure
 The directory structure of this repository is organized as follows:
 
@@ -80,13 +80,12 @@ The directory structure of this repository is organized as follows:
 │   └── terragrunt.hcl
 ├── ansible-cc-post-deploy
 │   └── terragrunt.hcl
-├── aws-vars.yaml
-├── common-vars.yaml
 ├── control-center-post-config
 │   └── terragrunt.hcl
 ├── control-center-pre-config
 │   └── terragrunt.hcl
-├── environment.json
+├── aws-vars.yaml
+├── common-vars.yaml
 ├── environment.yaml
 ├── movestatetogitlab.sh
 ├── README.md
