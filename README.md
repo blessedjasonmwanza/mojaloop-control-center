@@ -120,7 +120,7 @@ ansible_collection_tag: v5.2.7-on-premise
 gitlab_admin_rbac_group: tenant-admins
 gitlab_readonly_rbac_group: tenant-viewers
 netmaker_version: 0.24.0
-letsencrypt_email: testing@mojalabs.io
+letsencrypt_email: testing@domain.com
 delete_storage_on_term: true
 docker_server_extra_vol_size: 100
 loki_data_expiry: 7d
@@ -202,6 +202,7 @@ gitlab_hosts:
 
 gitlab_hosts_var_maps:
   gitlab_server: "gitlab.domain.com"
+  letsencrypt_email: testing@domain.com
   backup_ebs_volume_id: "disk-1"
   enable_github_oauth: "false"
   enable_pages: "false"
@@ -237,25 +238,26 @@ netmaker_hosts_var_maps:
    ```
 
 2. Update setlocalenv.sh:
-   ```bash
-   export IAC_TEMPLATES_TAG=$IAC_TERRAFORM_MODULES_TAG
-   export CONTROL_CENTER_CLOUD_PROVIDER=aws
-   yq '.' environment.yaml > environment.json
-   for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)"' ./environment.   json); do export $var; done
-   export destroy_ansible_playbook="mojaloop.iac.control_center_post_destroy"
-   export d_ansible_collection_url="git+https://github.com/thitsax/   iac-ansible-collection-roles.git#/mojaloop/iac"
-   export destroy_ansible_inventory="$ANSIBLE_BASE_OUTPUT_DIR/   control-center-post-config/inventory"
-   export destroy_ansible_collection_complete_url=$d_ansible_collection_url,   $ansible_collection_tag
-   export IAC_TERRAFORM_MODULES_TAG=v5.3.8-on-premise
-   export ANSIBLE_BASE_OUTPUT_DIR=$PWD/output
-   export PRIVATE_REPO_TOKEN=nullvalue
-   export PRIVATE_REPO_USER=nullvalue
-   export PRIVATE_REPO=example.com
-   export GITLAB_URL=gitlab.domain.com
-   export GITLAB_SERVER_TOKEN=GT0LcT63hC8QEVfIvrh3A
-   export DOMAIN=domain.com
-   export PROJECT_ID=1
-   ```
+```bash
+export IAC_TEMPLATES_TAG=$IAC_TERRAFORM_MODULES_TAG
+export CONTROL_CENTER_CLOUD_PROVIDER=aws
+yq '.' environment.yaml > environment.json
+for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)"' ./environment.json); do export $var; done
+export destroy_ansible_playbook="mojaloop.iac.control_center_post_destroy"
+export d_ansible_collection_url="git+https://github.com/thitsax/iac-ansible-collection-roles.git#/mojaloop/iac"
+export destroy_ansible_inventory="$ANSIBLE_BASE_OUTPUT_DIR/control-center-post-config/inventory"
+export destroy_ansible_collection_complete_url=$d_ansible_collection_url,$ansible_collection_tag
+export IAC_TERRAFORM_MODULES_TAG=v5.3.8-on-premise
+export ANSIBLE_BASE_OUTPUT_DIR=$PWD/output
+export PRIVATE_REPO_TOKEN=nullvalue
+export PRIVATE_REPO_USER=nullvalue
+export PRIVATE_REPO=example.com
+export TF_STATE_BASE_ADDRESS="https://${GITLAB_URL}/api/v4/projects/${PROJECT_ID}/terraform/state"
+export GITLAB_URL=gitlab.domain.com
+export GITLAB_SERVER_TOKEN=gitlabtoken
+export DOMAIN=domain.com
+export PROJECT_ID=1
+```
 3. Set environment variables:
    ```bash
    source setlocalenv.sh

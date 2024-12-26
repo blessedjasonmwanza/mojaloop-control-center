@@ -84,6 +84,7 @@ gitlab_hosts:
 
 gitlab_hosts_var_maps:
   gitlab_server: "gitlab.domain.com"
+  letsencrypt_email: testing@mojalabs.io
   backup_ebs_volume_id: "disk-1"
   enable_github_oauth: "false"
   enable_pages: "false"
