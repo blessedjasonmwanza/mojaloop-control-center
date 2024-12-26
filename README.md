@@ -67,37 +67,32 @@ Before you begin, ensure you have the following installed:
 - Git for version control
 - Install jq and yq
 - [Ability to run sudo without password](https://linuxhandbook.com/sudo-without-password/)
-- Infrastructure --> Updating soon
-  - bastion --> 1vCPU 1GB 10GB Storage 1EIP
-  - gitlab  -->  2vCPU 8GB 40 GB and 100 GB Storage 1EIP
-  - docker -->  8vCPU 32GB 100GB Storage 1EIP
-  - netmaker --> 2vCPU 2GB 10GB Storage 1EIP
-
+- Infrastructure: (Updating soon)
+    Bastion: 1vCPU, 1GB RAM, 10GB storage, 1 EIP
+    Gitlab: 2vCPU, 8GB RAM, 40GB storage + 100GB extra storage, 1 EIP
+    Docker: 8vCPU, 32GB RAM, 100GB storage, 1 EIP
+    Netmaker: 2vCPU, 2GB RAM, 10GB storage, 1 EIP
 ## Directory Structure
 The directory structure of this repository is organized as follows:
 
 ```
-terraform
-    ├── control-center
-        └── init
-            ├── ansible-cc-deploy
-            │   └── terragrunt.hcl
-            ├── ansible-cc-post-deploy
-            │   └── terragrunt.hcl
-            ├── aws-vars.yaml
-            ├── common-vars.yaml
-            ├── control-center-deploy
-            │   └── terragrunt.hcl
-            ├── control-center-post-config
-            │   └── terragrunt.hcl
-            ├── control-center-pre-config
-            │   └── terragrunt.hcl
-            ├── environment.json
-            ├── environment.yaml
-            ├── movestatetogitlab.sh
-            ├── setlocalenv.sh
-            ├── sshkey
-            └── terragrunt.hcl
+├── ansible-cc-deploy
+│   └── terragrunt.hcl
+├── ansible-cc-post-deploy
+│   └── terragrunt.hcl
+├── aws-vars.yaml
+├── common-vars.yaml
+├── control-center-post-config
+│   └── terragrunt.hcl
+├── control-center-pre-config
+│   └── terragrunt.hcl
+├── environment.json
+├── environment.yaml
+├── movestatetogitlab.sh
+├── README.md
+├── setlocalenv.sh
+├── sshkey
+└── terragrunt.hcl
 
 ```
 
@@ -105,12 +100,17 @@ terraform
 To get started with this Terraform codebase:
 1. Clone the repository:
    ```bash
-   git clone https://github.com/ThitsaX/mojaloop-iac-modules.git
+   git clone git@github.com:ThitsaX/mojaloop-control-center.git
    ```
 
-2. Navigate to the control center init directory:
+2. Navigate to the control center directory:
    ```bash
-   cd mojaloop-iac-modules/terraform/control-center/init
+   cd mojaloop-control-center
+   ```
+3. Setup ssh private key file
+   ```bash
+   nano sshkey
+   chmod 400 sshkey
    ```
 
 ## Configuration
@@ -262,11 +262,6 @@ netmaker_hosts_var_maps:
    source setlocalenv.sh
    ```   
 
-4. Add ssh private key in the control-center/init directory
-   ```bash
-   sshkey
-   ``` 
-
 ## Deployment
 To apply the configurations:
 1. Plan the deployment to see what changes will be made:
@@ -285,7 +280,11 @@ To apply the configurations:
    
 4. Login to the Gitlab with provided gitlab hostname and credentials. Then,please make sure to setup 2FA for root user
 5. Once you able to login Gitlab, you'll see repository name: bootstrap which is also know as control center repository
-6. Go to the CI/CD pipeline and run the **deploy** job. Afterward, create a CI/CD variable named **ENV_TO_UPDATE** and add your environment name
+6. Go to the CI/CD pipeline and run the **deploy** job. Afterward, create a CI/CD variable named **ENV_TO_UPDATE** and **IAC_MODULES_VERSION_TO_UPDATE** eg,
+```bash
+ENV_TO_UPDATE : hub	
+IAC_MODULES_VERSION_TO_UPDATE : v5.3.8-on-premise
+```	
 7. Finally, run the **deploy-env-templates** job. Afterward, you will see that your environment repository has been created in GitLab.
 ![image](https://github.com/user-attachments/assets/e13bfb42-4d31-4312-9b84-a7fdfb1f10f4)
 
