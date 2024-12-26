@@ -1,0 +1,2 @@
+aws_provider_version: ">= 5.0.0"
+awsutils_provider_version: ">= 0.18.1"
