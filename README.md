@@ -67,11 +67,27 @@ Before you begin, ensure you have the following installed:
 - Git for version control
 - Install jq and yq
 - [Ability to run sudo without password](https://linuxhandbook.com/sudo-without-password/)
-- Infrastructure: (Updating soon)
+- Base Infrastructure
     - Bastion: 1vCPU, 1GB RAM, 10GB storage, 1 EIP
     - Gitlab: 2vCPU, 8GB RAM, 40GB storage + 100GB extra storage, 1 EIP
     - Docker: 8vCPU, 32GB RAM, 100GB storage, 1 EIP
     - Netmaker: 2vCPU, 2GB RAM, 10GB storage, 1 EIP
+- Create DNS records in your domain provider
+
+| Domain Name                          | Record Type | IP Address      | TTL  |
+|--------------------------------------|-------------|------------------|------|
+| gitlab.domain.com            | A           | gitlabpublicip   | 300  |
+| gitlab_runner.domain.com     | A           | dockerprivateip       | 300  |
+| grafana.domain.com           | A           | dockerprivateip       | 300  |
+| mimir.domain.com             | A           | dockerprivateip       | 300  |
+| minio.domain.com             | A           | dockerprivateip       | 300  |
+| api.netmaker.domain.com      | A           | netmakerpublicip   | 300  |
+| broker.netmaker.domain.com   | A           | netmakerpublicip   | 300  |
+| dashboard.netmaker.domain.com | A           | netmakerpublicip   | 300  |
+| stun.netmaker.domain.com     | A           | netmakerpublicip   | 300  |
+| nexus.domain.com             | A           | dockerprivateip       | 300  |
+| vault.domain.com             | A           | dockerpublicip    | 300  |
+    
 ## Directory Structure
 The directory structure of this repository is organized as follows:
 
