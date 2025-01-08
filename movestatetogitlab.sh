@@ -45,11 +45,9 @@ EOF
 }
 EOT
 terragrunt run-all init -migrate-state -force-copy
-# git config --global user.email "root@${DOMAIN}"
-# git config --global user.name "root"
 git clone https://${TF_HTTP_USERNAME}:${TF_HTTP_PASSWORD}@${GITLAB_URL}/iac/bootstrap.git $TMP_GITLAB_DIR
 cd ${BASE_DIR}
-cp -r sshkey  control-center-pre-config/ control-center-post-config/ ansible-cc-deploy/ ansible-cc-post-deploy/ environment.yaml terragrunt.hcl *-vars.yaml $TMP_GITLAB_DIR
+cp -r README.md .gitignore setlocalenv.sh movestatetogitlab.sh movestatefromgitlab.sh sshkey  control-center-pre-config/ control-center-post-config/ ansible-cc-deploy/ ansible-cc-post-deploy/ environment.yaml terragrunt.hcl *-vars.yaml $TMP_GITLAB_DIR
 git clone https://github.com/thitsax/mojaloop-iac-modules.git $TMP_TEMPLATE_DIR
 cd $TMP_TEMPLATE_DIR
 git checkout $IAC_TEMPLATES_TAG
