@@ -62,13 +62,14 @@ This repository contains Terraform configurations for provisioning and managing 
 
 ## Prerequisites
 Before you begin, ensure you have the following installed:
-- [Terraform](https://www.terraform.io/downloads.html) (version v1.3.4 or higher)
-- [Terragrunt](https://github.com/gruntwork-io/terragrunt/releases) (version v0.67.4 or higher)
-- [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) (version core 2.18.1 or higher)
-- Git for version control
-- Install jq and yq
-- [Ability to run sudo without password](https://linuxhandbook.com/sudo-without-password/)
-- Base Infrastructure requirements
+- [terraform](https://www.terraform.io/downloads.html) (v1.3.4)
+- [terragrunt](https://github.com/gruntwork-io/terragrunt/releases) (v0.67.4)
+- [ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) (ansible-core 2.18.1 or ansible 10.0.1)
+- [git](https://git-scm.com/downloads)
+- [jq](https://jqlang.github.io/jq/download/)
+- [yq](https://lindevs.com/install-yq-on-ubuntu/)
+- [ability to run sudo without password](https://linuxhandbook.com/sudo-without-password/)
+## Base Infrastructure requirements
 
 | Component      | OS              | CPU    | RAM      | Storage                          | EIP   |
 |----------------|-----------------|--------|----------|----------------------------------|-------|
@@ -77,7 +78,7 @@ Before you begin, ensure you have the following installed:
 | Docker         | Ubuntu 24.04 LTS | 8vCPU  | 32GB     | 100GB                            | 1 EIP |
 | Netmaker       | Ubuntu 24.04 LTS | 2vCPU  | 2GB      | 10GB                             | 1 EIP |
 
-- Create DNS records in your domain provider
+## Create DNS records in your domain provider
 
 | Domain Name                          | Record Type | IP Address      | TTL  |
 |--------------------------------------|-------------|------------------|------|
