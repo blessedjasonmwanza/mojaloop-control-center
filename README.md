@@ -139,7 +139,6 @@ To get started with this Terraform codebase:
 
 1. Update environment.yaml: Please make sure to update the vaules as per your requirements and don't use dummy vaules
 ```bash
-control_center_cloud_provider: aws
 ansible_collection_tag: v5.2.7.1-on-premise
 iac_terraform_modules_tag: v5.3.8.1-on-premise
 private_repo_token: "nullvalue"

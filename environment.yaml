@@ -1,4 +1,3 @@
-control_center_cloud_provider: aws
 ansible_collection_tag: v5.2.7.1-on-premise
 iac_terraform_modules_tag: v5.3.8.1-on-premise
 private_repo_token: "nullvalue"
