@@ -1,4 +1,9 @@
-ansible_collection_tag: v5.2.7-on-premise  
+control_center_cloud_provider: aws
+ansible_collection_tag: v5.2.7.1-on-premise
+iac_terraform_modules_tag: v5.3.8.1-on-premise
+private_repo_token: "nullvalue"
+private_repo_user: "nullvalue"
+private_repo: "example.com"
 gitlab_admin_rbac_group: tenant-admins
 gitlab_readonly_rbac_group: tenant-viewers
 netmaker_version: 0.24.0
@@ -20,12 +25,26 @@ envs:
     grafana_oidc_domain: int.hub
     argocd_oidc_domain: int.hub
     netmaker_network_cidr: "192.168.41.0/24"
+    cloud_platform: bare-metal
+    ansible_collection_tag: v5.2.7.1-on-premise
+    iac_terraform_modules_tag: v5.3.8.1-on-premise
+    letsencrypt_email: testing@mojalabs.io
+    vpc_cidr: "10.110.0.0/16"
+    managed_svc_cloud_platform: none
+    cloud_platform_client_secret_name: none
   - env: pm4ml
     domain: domain.com
     vault_oidc_domain: int.pm4ml
     grafana_oidc_domain: int.pm4ml
     argocd_oidc_domain: int.pm4ml
-    netmaker_network_cidr: "192.168.42.0/24"
+    netmaker_network_cidr: "10.20.42.0/24"
+    cloud_platform: bare-metal
+    ansible_collection_tag: v5.2.7.1-on-premise
+    iac_terraform_modules_tag: v5.3.8.1-on-premise
+    letsencrypt_email: testing@mojalabs.io
+    vpc_cidr: "10.111.0.0/16"
+    managed_svc_cloud_platform: none
+    cloud_platform_client_secret_name: none
 
 all_hosts_var_maps:
   ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
@@ -90,7 +109,7 @@ gitlab_hosts_var_maps:
   enable_pages: "false"
   github_oauth_id: ""
   github_oauth_secret: ""
-  gitlab_version: "16.0.5"
+  gitlab_version: "17.7.0"
   letsencrypt_endpoint: "https://acme-v02.api.letsencrypt.org/directory"
   s3_password: "umDLfd1JsU03PZEuLjH6"
   s3_server_url: "http://minio.domain.com:9000"
@@ -106,7 +125,7 @@ gitlab_hosts_var_maps:
   smtp_server_user: ""
 
 netmaker_hosts:
-  netmaker_server: "bastionpublicip"
+  netmaker_server: "netmakerpublicip"
 
 netmaker_hosts_var_maps:
   enable_oauth: "true"
