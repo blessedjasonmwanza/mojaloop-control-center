@@ -12,6 +12,7 @@ This document provides an overview of the Mojaloop Control Center, focusing on i
 7. [Deployment](#deployment)
 8. [Best Practices](#best-practices)
 9. [Troubleshooting](#troubleshooting)
+10. [Important Notes](#important-notes)
 
 ## Introduction
 This repository contains Terraform configurations for provisioning and managing cloud infrastructure. The code is designed to be modular, reusable, and easy to understand, allowing teams to deploy resources efficiently.
@@ -67,11 +68,15 @@ Before you begin, ensure you have the following installed:
 - Git for version control
 - Install jq and yq
 - [Ability to run sudo without password](https://linuxhandbook.com/sudo-without-password/)
-- Base Infrastructure
-    - Bastion: 1vCPU, 1GB RAM, 10GB storage, 1 EIP
-    - Gitlab: 2vCPU, 8GB RAM, 40GB storage + 100GB extra storage, 1 EIP
-    - Docker: 8vCPU, 32GB RAM, 100GB storage, 1 EIP
-    - Netmaker: 2vCPU, 2GB RAM, 10GB storage, 1 EIP
+- Base Infrastructure requirements
+
+| Component      | OS              | CPU    | RAM      | Storage                          | EIP   |
+|----------------|-----------------|--------|----------|----------------------------------|-------|
+| Bastion        | Ubuntu 24.04 LTS | 1vCPU  | 1GB      | 10GB                             | 1 EIP |
+| GitLab         | Ubuntu 24.04 LTS | 2vCPU  | 8GB      | 40GB + 100GB extra storage       | 1 EIP |
+| Docker         | Ubuntu 24.04 LTS | 8vCPU  | 32GB     | 100GB                            | 1 EIP |
+| Netmaker       | Ubuntu 24.04 LTS | 2vCPU  | 2GB      | 10GB                             | 1 EIP |
+
 - Create DNS records in your domain provider
 
 | Domain Name                          | Record Type | IP Address      | TTL  |
@@ -132,11 +137,16 @@ To get started with this Terraform codebase:
 
 1. Update environment.yaml: Please make sure to update the vaules as per your requirements and don't use dummy vaules
 ```bash
-ansible_collection_tag: v5.2.7-on-premise  
+control_center_cloud_provider: aws
+ansible_collection_tag: v5.2.7.1-on-premise
+iac_terraform_modules_tag: v5.3.8.1-on-premise
+private_repo_token: "nullvalue"
+private_repo_user: "nullvalue"
+private_repo: "example.com"
 gitlab_admin_rbac_group: tenant-admins
 gitlab_readonly_rbac_group: tenant-viewers
 netmaker_version: 0.24.0
-letsencrypt_email: testing@domain.com
+letsencrypt_email: testing@mojalabs.io
 delete_storage_on_term: true
 docker_server_extra_vol_size: 100
 loki_data_expiry: 7d
@@ -154,12 +164,26 @@ envs:
     grafana_oidc_domain: int.hub
     argocd_oidc_domain: int.hub
     netmaker_network_cidr: "192.168.41.0/24"
+    cloud_platform: bare-metal
+    ansible_collection_tag: v5.2.7.1-on-premise
+    iac_terraform_modules_tag: v5.3.8.1-on-premise
+    letsencrypt_email: testing@mojalabs.io
+    vpc_cidr: "10.110.0.0/16"
+    managed_svc_cloud_platform: none
+    cloud_platform_client_secret_name: none
   - env: pm4ml
     domain: domain.com
     vault_oidc_domain: int.pm4ml
     grafana_oidc_domain: int.pm4ml
     argocd_oidc_domain: int.pm4ml
-    netmaker_network_cidr: "192.168.42.0/24"
+    netmaker_network_cidr: "10.20.42.0/24"
+    cloud_platform: bare-metal
+    ansible_collection_tag: v5.2.7.1-on-premise
+    iac_terraform_modules_tag: v5.3.8.1-on-premise
+    letsencrypt_email: testing@mojalabs.io
+    vpc_cidr: "10.111.0.0/16"
+    managed_svc_cloud_platform: none
+    cloud_platform_client_secret_name: none
 
 all_hosts_var_maps:
   ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
@@ -218,13 +242,13 @@ gitlab_hosts:
 
 gitlab_hosts_var_maps:
   gitlab_server: "gitlab.domain.com"
-  letsencrypt_email: testing@domain.com
+  letsencrypt_email: testing@mojalabs.io
   backup_ebs_volume_id: "disk-1"
   enable_github_oauth: "false"
   enable_pages: "false"
   github_oauth_id: ""
   github_oauth_secret: ""
-  gitlab_version: "16.0.5"
+  gitlab_version: "17.7.0"
   letsencrypt_endpoint: "https://acme-v02.api.letsencrypt.org/directory"
   s3_password: "umDLfd1JsU03PZEuLjH6"
   s3_server_url: "http://minio.domain.com:9000"
@@ -240,7 +264,7 @@ gitlab_hosts_var_maps:
   smtp_server_user: ""
 
 netmaker_hosts:
-  netmaker_server: "bastionpublicip"
+  netmaker_server: "netmakerpublicip"
 
 netmaker_hosts_var_maps:
   enable_oauth: "true"
@@ -253,28 +277,7 @@ netmaker_hosts_var_maps:
   netmaker_oidc_issuer: "https://gitlab.domain.com"
    ```
 
-2. Update setlocalenv.sh:
-```bash
-export IAC_TEMPLATES_TAG=$IAC_TERRAFORM_MODULES_TAG
-export CONTROL_CENTER_CLOUD_PROVIDER=aws
-yq '.' environment.yaml > environment.json
-for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)"' ./environment.json); do export $var; done
-export destroy_ansible_playbook="mojaloop.iac.control_center_post_destroy"
-export d_ansible_collection_url="git+https://github.com/thitsax/iac-ansible-collection-roles.git#/mojaloop/iac"
-export destroy_ansible_inventory="$ANSIBLE_BASE_OUTPUT_DIR/control-center-post-config/inventory"
-export destroy_ansible_collection_complete_url=$d_ansible_collection_url,$ansible_collection_tag
-export IAC_TERRAFORM_MODULES_TAG=v5.3.8-on-premise
-export ANSIBLE_BASE_OUTPUT_DIR=$PWD/output
-export PRIVATE_REPO_TOKEN=nullvalue
-export PRIVATE_REPO_USER=nullvalue
-export PRIVATE_REPO=example.com
-export TF_STATE_BASE_ADDRESS="https://${GITLAB_URL}/api/v4/projects/${PROJECT_ID}/terraform/state"
-export GITLAB_URL=gitlab.domain.com
-export GITLAB_SERVER_TOKEN=gitlabtoken
-export DOMAIN=domain.com
-export PROJECT_ID=1
-```
-3. Set environment variables:
+2. Set environment variables:
    ```bash
    source setlocalenv.sh
    ```   
@@ -300,7 +303,7 @@ To apply the configurations:
 6. Go to the CI/CD pipeline and run the **deploy** job. Afterward, create a CI/CD variable named **ENV_TO_UPDATE** and **IAC_MODULES_VERSION_TO_UPDATE** eg,
 ```bash
 ENV_TO_UPDATE : hub	
-IAC_MODULES_VERSION_TO_UPDATE : v5.3.8-on-premise
+IAC_MODULES_VERSION_TO_UPDATE : v5.3.8.1-on-premise
 ```	
 7. Finally, run the **deploy-env-templates** job. Afterward, you will see that your environment repository has been created in GitLab.
 ![image](https://github.com/user-attachments/assets/e13bfb42-4d31-4312-9b84-a7fdfb1f10f4)
@@ -326,3 +329,14 @@ If you encounter issues:
 - Ensure that your provided credentials or vaules are correctly configured.
 - Review logs and state files for inconsistencies.
 
+## Important Notes
+
+## GitLab Token Management
+
+**Token Expiration**: GitLab tokens are valid for one year from the date of creation. This means that they will automatically expire after this period, requiring you to generate a new token to maintain uninterrupted access.
+
+**Token Rotation**: It is essential to rotate your tokens regularly to enhance security. This involves creating a new token before the expiration of the existing one and updating any services or applications that rely on the old token.
+
+**Set Reminders**: Schedule reminders to review and rotate your GitLab token by updating the **vault_gitlab_token** and **server_token** variables.
+
+**Deploy Job**: Execute the deploy job at least 30 days before the token's expiration. This will provide ample time to update your configurations and avoid any service interruptions.
