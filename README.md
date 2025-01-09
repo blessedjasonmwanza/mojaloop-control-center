@@ -62,9 +62,10 @@ This repository contains Terraform configurations for provisioning and managing 
 
 ## Prerequisites
 Before you begin, ensure you have the following installed:
-- [terraform](https://www.terraform.io/downloads.html) (v1.3.4)
-- [terragrunt](https://github.com/gruntwork-io/terragrunt/releases) (v0.67.4)
-- [ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) (ansible-core 2.18.1 or ansible 10.0.1)
+- [terraform](https://www.terraform.io/downloads.html) (v1.3.2)
+- [terragrunt](https://github.com/gruntwork-io/terragrunt/releases) (v0.57.0)
+- [python3](https://www.python.org/downloads/) (v3.12)
+- [ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) (ansible-core v2.18.1 or ansible [v10.0.1](https://pypi.org/project/ansible/10.0.1/))
 - [git](https://git-scm.com/downloads)
 - [jq](https://jqlang.github.io/jq/download/)
 - [yq](https://lindevs.com/install-yq-on-ubuntu/)
