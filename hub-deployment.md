@@ -32,9 +32,9 @@ Ensure the following prerequisites are met before you begin:
 | bastion        | Ubuntu 24.04 LTS | 1vCPU  | 1GB      | 10GB                             | 1 EIP |
 | internal haproxy    | Ubuntu 24.04 LTS | 2vCPU  | 2GB      | 10GB                             |       |
 | external haproxy    | Ubuntu 24.04 LTS | 2vCPU  | 2GB      | 10GB                             | 1 EIP |
-| microk8s-1     | Ubuntu 24.04 LTS | 8vCPU  | 32GB     | 100GB                            |       |
-| microk8s-2     | Ubuntu 24.04 LTS | 8vCPU  | 32GB     | 100GB                            |       |
-| nicrok8s-3     | Ubuntu 24.04 LTS | 8vCPU  | 32GB     | 100GB                            |       |
+| microk8s-1     | Ubuntu 24.04 LTS | 8vCPU  | 32GB     | 300GB                            |       |
+| microk8s-2     | Ubuntu 24.04 LTS | 8vCPU  | 32GB     | 300GB                            |       |
+| nicrok8s-3     | Ubuntu 24.04 LTS | 8vCPU  | 32GB     | 300GB                            |       |
 | nat-gateway/instance |  |   |      |                                                     | 1 EIP |                                                                 
 
 ### DNS Records Configuration
