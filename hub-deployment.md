@@ -56,15 +56,31 @@ Please create the following DNS record with in the AWS Route53:
 Run the following commands to install HAProxy:
 
 ```bash
-apt-get update
-apt-get upgrade
-apt-get -y install haproxy
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get -y install haproxy
 ```
 
 #### Update `/etc/haproxy/haproxy.cfg`
 Modify the `/etc/haproxy/haproxy.cfg` file with the following configuration:
 
 ```yaml
+defaults
+        log     global
+        mode    tcp
+        option  tcplog
+        option  dontlognull
+        timeout connect 5000
+        timeout client  50000
+        timeout server  50000
+        errorfile 400 /etc/haproxy/errors/400.http
+        errorfile 403 /etc/haproxy/errors/403.http
+        errorfile 408 /etc/haproxy/errors/408.http
+        errorfile 500 /etc/haproxy/errors/500.http
+        errorfile 502 /etc/haproxy/errors/502.http
+        errorfile 503 /etc/haproxy/errors/503.http
+        errorfile 504 /etc/haproxy/errors/504.http
+
 frontend external-k8s-tls
   mode tcp
   bind <ext-haproxy-private-ip>:443
@@ -94,12 +110,12 @@ backend external-k8s
 #### Test and Restart HAProxy
 1. Test the configuration for errors:
    ```bash
-   haproxy -f /etc/haproxy/haproxy.cfg -c
+   sudo haproxy -f /etc/haproxy/haproxy.cfg -c
    ```
 
 2. Restart the HAProxy service:
    ```bash
-   systemctl restart haproxy
+   sudo systemctl restart haproxy
    ```
 
 ### Configuring the Internal HAProxy Proxy Node
@@ -108,15 +124,31 @@ backend external-k8s
 Run the following commands to install HAProxy:
 
 ```bash
-apt-get update
-apt-get upgrade
-apt-get -y install haproxy
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get -y install haproxy
 ```
 
 #### Update `/etc/haproxy/haproxy.cfg`
 Modify the `/etc/haproxy/haproxy.cfg` file with the following configuration:
 
 ```yaml
+defaults
+        log     global
+        mode    tcp
+        option  tcplog
+        option  dontlognull
+        timeout connect 5000
+        timeout client  50000
+        timeout server  50000
+        errorfile 400 /etc/haproxy/errors/400.http
+        errorfile 403 /etc/haproxy/errors/403.http
+        errorfile 408 /etc/haproxy/errors/408.http
+        errorfile 500 /etc/haproxy/errors/500.http
+        errorfile 502 /etc/haproxy/errors/502.http
+        errorfile 503 /etc/haproxy/errors/503.http
+        errorfile 504 /etc/haproxy/errors/504.http
+
 frontend internal-k8s-tls
   mode tcp
   bind <int-haproxy-private-ip>:443
@@ -146,12 +178,12 @@ backend internal-k8s
 #### Test and Restart HAProxy
 1. Test the configuration for errors:
    ```bash
-   haproxy -f /etc/haproxy/haproxy.cfg -c
+   sudo haproxy -f /etc/haproxy/haproxy.cfg -c
    ```
 
 2. Restart the HAProxy service:
    ```bash
-   systemctl restart haproxy
+   sudo systemctl restart haproxy
    ```
 
 ### Update Hub Repository in Gitlab
