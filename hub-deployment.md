@@ -4,13 +4,14 @@ This document outlines the Mojaloop Hub deployment process, with a specific focu
 ## Table of Contents  
 1. [Introduction](#introduction)  
 2. [Prerequisites](#prerequisites)  
-3. [Getting Started](#getting-started)  
+3. [Key Components](#key-components)  
 4. [Configuration](#configuration)  
 5. [Deployment](#deployment)  
 
 ## Introduction
 In this guide, we focus on the process of deploying Mojaloop Hub in an on-premise environment. An on-premise setup means that the entire system, including all components like servers and network infrastructure, will be hosted and managed internally within your organization's data center, instead of relying on cloud services.
-### Key Components
+
+## Key Components
 1. Bastion Server: The bastion server acts as a secure gateway into your private network. Since direct access to internal servers is restricted, the bastion server allows administrative access (for example, through SSH) to these servers, while keeping them hidden from the external network. This minimizes security risks.
 2. Internal HAProxy Server: HAProxy is used internally to manage and distribute network traffic across different services or microservices within your private network. The internal HAProxy ensures that the load is evenly distributed between various backend systems, ensuring high availability and performance of your internal applications.
 3. External HAProxy Server: The external HAProxy server sits at the boundary of your network, handling incoming requests from external clients or the internet. It acts as a reverse proxy, routing these requests to the correct internal services. By balancing the load across multiple servers, it ensures better performance, fault tolerance, and scalability. It can also handle SSL encryption, securing the communication between clients and servers.
@@ -269,5 +270,6 @@ central-ledger-db:
     logical_service_port: 3306
 ```
 
-### 5. Deployment  
-To deploy your infrastructure, navigate to the CI/CD pipeline and trigger the `deploy-infra` job.
+## Deployment  
+Navigate to the CI/CD pipeline section of your Mojaloop Hub repository in GitLab. Once there, locate the `deploy-infra` job, which is responsible for deploying your infrastructure. 
+Trigger this job to initiate the deployment process. This will automatically begin provisioning the necessary resources and configure the infrastructure according to the specifications defined in your repository's configuration files. Make sure that the pipeline is successfully executed, and monitor for any potential errors or issues that may arise during deployment.
