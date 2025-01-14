@@ -156,7 +156,7 @@ backend internal-k8s
 
 ### Update Hub Repository in Gitlab
 
-1. Update `custom-config/bare-metal-vars.yaml` with the appropriate values, ensuring no dummy values are used:
+1. Create `custom-config/bare-metal-vars.yaml` with the appropriate values, ensuring no dummy values are used:
 ```yaml
 external_load_balancer_dns: <ext-haproxy-public-ip>
 nat_public_ips: ["<nat-publicip>"]
