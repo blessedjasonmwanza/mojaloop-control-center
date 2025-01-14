@@ -13,6 +13,7 @@ This document provides an overview of the Mojaloop Control Center, focusing on i
 8. [Best Practices](#best-practices)
 9. [Troubleshooting](#troubleshooting)
 10. [Important Notes](#important-notes)
+11. [Deploy Hub Environment](#deploy-hub-environment)
 
 ## Introduction
 This repository contains Terraform configurations for provisioning and managing cloud infrastructure. The code is designed to be modular, reusable, and easy to understand, allowing teams to deploy resources efficiently.
@@ -341,3 +342,9 @@ If you encounter issues:
 **Set Reminders**: Schedule reminders to review and rotate your GitLab token by updating the **vault_gitlab_token** and **server_token** variables.
 
 **Deploy Job**: Execute the deploy job at least 30 days before the token's expiration. This will provide ample time to update your configurations and avoid any service interruptions.
+
+
+## Deploy Hub Environment
+To continue with the deployment of the Mojaloop Hub environment, please follow the detailed guidelines provided in the [Hub Deployment Documentation](https://github.com/ThitsaX/mojaloop-control-center/blob/main/hub-deployment.md).
+
+This guide provides a step-by-step approach to setting up the necessary infrastructure and configuring the components of the Mojaloop Hub. Ensure to follow the instructions carefully for a smooth and successful deployment.
