@@ -23,9 +23,11 @@ In this guide, we focus on the process of deploying Mojaloop Hub in an on-premis
 ![hub-on-premise](https://github.com/user-attachments/assets/712f85d0-5d85-4562-bb8c-ef5b0d7e1646)
 
 ## Prerequisites  
-Ensure the following prerequisites are met before you begin:
-
-### Base Infrastructure Minimum Requirements
+Before you begin, make sure the following prerequisites are in place:  
+- Control-Center must be deployed first
+- AWS IAM credentials to allow external-dns access for updating DNS records
+- One domain and hosted zone in AWS Route53  
+### Minimum Base Infrastructure Requirements
 
 | Component      | OS              | CPU    | RAM      | Storage                          | EIP   |
 |----------------|-----------------|--------|----------|----------------------------------|-------|
@@ -34,7 +36,7 @@ Ensure the following prerequisites are met before you begin:
 | external haproxy    | Ubuntu 24.04 LTS | 2vCPU  | 2GB      | 10GB                             | 1 EIP |
 | microk8s-1     | Ubuntu 24.04 LTS | 8vCPU  | 32GB     | 300GB                            |       |
 | microk8s-2     | Ubuntu 24.04 LTS | 8vCPU  | 32GB     | 300GB                            |       |
-| nicrok8s-3     | Ubuntu 24.04 LTS | 8vCPU  | 32GB     | 300GB                            |       |
+| microk8s-3     | Ubuntu 24.04 LTS | 8vCPU  | 32GB     | 300GB                            |       |
 | nat-gateway/instance |  |   |      |                                                     | 1 EIP |                                                                 
 
 ### DNS Records Configuration
