@@ -5,32 +5,8 @@ dependency "ansible-cc-deploy" {
   config_path  = "../ansible-cc-deploy"
   skip_outputs = true
 }
-# dependency "control_center_deploy" {
-#   config_path = "../control-center-deploy"
-#   mock_outputs = {
-#     iac_user_key_secret              = "temporary-dummy-id"
-#     iac_user_key_id                  = "temporary-dummy-id"
-#     gitlab_root_token                = "temporary-dummy-id"
-#     gitlab_server_hostname           = "temporary-dummy-id"
-#     netmaker_oidc_callback_url       = "temporary-dummy-id"
-#     minio_listening_port             = "temporary-dummy-id"
-#     nexus_docker_repo_listening_port = "temporary-dummy-id"
-#     minio_fqdn                       = "temporary-dummy-id"
-#     mimir_fqdn                       = "temporary-dummy-id"
-#     mimir_listening_port             = "temporary-dummy-id"
-#     nexus_fqdn                       = "temporary-dummy-id"
-#     tenant_vault_listening_port      = "temporary-dummy-id"
-#     vault_fqdn                       = "temporary-dummy-id"
-    
-#     central_observability_grafana_server_url = "temporary-dummy-id"
-#   }
-#   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
-#   mock_outputs_merge_strategy_with_state  = "shallow"
-# }
 
 inputs = {
-  iac_user_key_secret              = local.env_vars.iac_user_key_secret
-  iac_user_key_id                  = local.env_vars.iac_user_key_id
   gitlab_admin_rbac_group          = local.env_vars.gitlab_admin_rbac_group
   gitlab_readonly_rbac_group       = local.env_vars.gitlab_readonly_rbac_group
   enable_netmaker_oidc             = local.netmaker_env_map["enable_oauth"]
@@ -48,7 +24,6 @@ inputs = {
   private_repo                     = get_env("PRIVATE_REPO")
   iac_templates_tag                = get_env("IAC_TEMPLATES_TAG")
   iac_terraform_modules_tag        = get_env("IAC_TERRAFORM_MODULES_TAG")
-  control_center_cloud_provider    = get_env("CONTROL_CENTER_CLOUD_PROVIDER")
 
   enable_central_observability_grafana_oidc       = local.docker_env_map["enable_central_observability_grafana_oidc"]
   central_observability_grafana_oidc_redirect_url = "https://${local.docker_env_map["central_observability_grafana_fqdn"]}/login/gitlab"
