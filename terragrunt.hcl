@@ -1,4 +1,4 @@
-skip = false
+skip=false
 remote_state {
   backend = "local"
   config = {
