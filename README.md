@@ -70,6 +70,7 @@ Before you begin, ensure you have the following installed:
 - [git](https://git-scm.com/downloads)
 - [jq](https://jqlang.github.io/jq/download/)
 - [yq](https://lindevs.com/install-yq-on-ubuntu/)
+- [jmespath](https://pypi.org/project/jmespath/)
 - [ability to run sudo without password](https://linuxhandbook.com/sudo-without-password/)
 ## Base Infrastructure requirements
 
