@@ -1,7 +1,7 @@
   terragrunt run-all init -upgrade
 
   cat <<'EOT' >terragrunt.hcl
-  skip=false
+  skip = false
   remote_state {
     backend = "local"
     config = {

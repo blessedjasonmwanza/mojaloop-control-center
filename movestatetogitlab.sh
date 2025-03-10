@@ -29,7 +29,7 @@ export TF_HTTP_PASSWORD=${TF_HTTP_PASSWORD}
 export IAC_TEMPLATES_TAG=${IAC_TEMPLATES_TAG}
 EOT
 cat <<'EOT' >terragrunt.hcl
-skip=true
+skip = false
 generate "backend" {
   path      = "backend.tf"
   if_exists = "overwrite_terragrunt"
