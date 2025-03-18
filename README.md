@@ -85,17 +85,17 @@ Before you begin, ensure you have the following installed:
 
 | Domain Name                          | Record Type | IP Address      | TTL  |
 |--------------------------------------|-------------|------------------|------|
-| gitlab.domain.com            | A           | gitlabpublicip   | 300  |
-| gitlab_runner.domain.com     | A           | dockerprivateip       | 300  |
-| grafana.domain.com           | A           | dockerprivateip       | 300  |
-| mimir.domain.com             | A           | dockerprivateip       | 300  |
-| minio.domain.com             | A           | dockerprivateip       | 300  |
-| api.netmaker.domain.com      | A           | netmakerpublicip   | 300  |
-| broker.netmaker.domain.com   | A           | netmakerpublicip   | 300  |
-| dashboard.netmaker.domain.com | A           | netmakerpublicip   | 300  |
-| stun.netmaker.domain.com     | A           | netmakerpublicip   | 300  |
-| nexus.domain.com             | A           | dockerprivateip       | 300  |
-| vault.domain.com             | A           | dockerpublicip    | 300  |
+| gitlab.<domain.com>            | A           | gitlabpublicip   | 300  |
+| gitlab_runner.<domain.com>     | A           | dockerprivateip       | 300  |
+| grafana.<domain.com>           | A           | dockerprivateip       | 300  |
+| mimir.<domain.com>             | A           | dockerprivateip       | 300  |
+| minio.<domain.com>             | A           | dockerprivateip       | 300  |
+| api.netmaker.<domain.com>      | A           | netmakerpublicip   | 300  |
+| broker.netmaker.<domain.com>   | A           | netmakerpublicip   | 300  |
+| dashboard.netmaker.<domain.com> | A           | netmakerpublicip   | 300  |
+| stun.netmaker.<domain.com>     | A           | netmakerpublicip   | 300  |
+| nexus.<domain.com>             | A           | dockerprivateip       | 300  |
+| vault.<domain.com>             | A           | dockerpublicip    | 300  |
     
 ## Directory Structure
 The directory structure of this repository is organized as follows:
@@ -157,32 +157,32 @@ tempo_data_expiry_days: 7d
 longhorn_backup_data_expiry: 1d
 velero_data_expiry: 1d
 percona_backup_data_expiry: 3d
-controlcenter_netmaker_network_cidr: "192.168.40.0/24"
+controlcenter_netmaker_network_cidr: "<netmaker_cidr>" #eg "192.168.40.0/24"
 envs:
   - env: hub
-    domain: domain.com
+    domain: <domain.com>
     vault_oidc_domain: int.hub
     grafana_oidc_domain: int.hub
     argocd_oidc_domain: int.hub
-    netmaker_network_cidr: "192.168.41.0/24"
+    netmaker_network_cidr: "<netmaker_cidr>" #eg "192.168.41.0/24"
     cloud_platform: bare-metal
     ansible_collection_tag: v5.2.7.1-on-premise
     iac_terraform_modules_tag: v5.3.8.1-on-premise
     letsencrypt_email: testing@mojalabs.io
-    vpc_cidr: "10.110.0.0/16"
+    vpc_cidr: "<vpc_cidr>"  #eg "10.110.0.0/16"
     managed_svc_cloud_platform: none
     cloud_platform_client_secret_name: none
   - env: pm4ml
-    domain: domain.com
+    domain: <domain.com>
     vault_oidc_domain: int.pm4ml
     grafana_oidc_domain: int.pm4ml
     argocd_oidc_domain: int.pm4ml
-    netmaker_network_cidr: "10.20.42.0/24"
+    netmaker_network_cidr: "<netmaker_cidr>" #eg "192.168.42.0/24"
     cloud_platform: bare-metal
     ansible_collection_tag: v5.2.7.1-on-premise
     iac_terraform_modules_tag: v5.3.8.1-on-premise
     letsencrypt_email: testing@mojalabs.io
-    vpc_cidr: "10.111.0.0/16"
+    vpc_cidr: "<vpc_cidr>" #eg "10.111.0.0/16"
     managed_svc_cloud_platform: none
     cloud_platform_client_secret_name: none
 
@@ -190,8 +190,8 @@ all_hosts_var_maps:
   ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
   ansible_ssh_retries: "10"
   ansible_ssh_user: "ubuntu"
-  base_domain: "domain.com"
-  gitlab_external_url: "https://gitlab.domain.com"
+  base_domain: "<domain.com>"
+  gitlab_external_url: "https://gitlab.<domain.com>"
   netmaker_image_version: "0.24.0"
 
 bastion_hosts:
@@ -200,18 +200,18 @@ bastion_hosts:
 bastion_public_ip: "bastionpublicip"
 bastion_os_username: "ubuntu"
 bastion_hosts_var_maps:
-  egress_gateway_cidr: "192.168.0.0/24"
-  netmaker_api_host: "api.netmaker.domain.com"
+  egress_gateway_cidr: "<privatenetwork_cidr>" #eg "10.0.0.0/16"
+  netmaker_api_host: "api.netmaker.<domain.com>"
   netmaker_image_version: "0.24.0"
   netmaker_master_key: "jdRryaXzsB6XO4tXvOM6nmabce2573"
   netclient_enrollment_keys: "cntrlctr-ops"
 
 docker_hosts:
-  docker: "dockerprivateip"
+  docker: "<dockerprivateip>"
 
 docker_hosts_var_maps:
-  ansible_hostname: "gitlab_runner.domain.com"
-  central_observability_grafana_fqdn: "grafana.domain.com"
+  ansible_hostname: "gitlab_runner.<domain.com>"
+  central_observability_grafana_fqdn: "grafana.<domain.com>"
   central_observability_grafana_listening_port: "3000"
   central_observability_grafana_root_password: "R3y]V@#BTPzyI%F{uliNI"
   central_observability_grafana_root_user: "admin"
@@ -220,41 +220,41 @@ docker_hosts_var_maps:
   gitlab_minio_secret: "umDLfd1JsU03PZEuLjH6"
   gitlab_minio_user: "gitlab"
   gitlab_runner_version: "17.6.0-1"
-  gitlab_server_hostname: "gitlab.domain.com"
-  mimir_fqdn: "mimir.domain.com"
+  gitlab_server_hostname: "gitlab.<domain.com>"
+  mimir_fqdn: "mimir.<domain.com>"
   mimir_listening_port: "9009"
   mimir_minio_password: "2qcbXCO55k5bdtycVEG5"
   mimir_minio_user: "mimir"
   minio_listening_port: "9000"
   minio_root_password: "691ZOAohxjKh_1MZ2_UU"
   minio_root_user: "admin"
-  minio_server_host: "minio.domain.com"
+  minio_server_host: "minio.<domain.com>"
   nexus_admin_password: "VG0Qjv8t3lSIfXJiQQnA"
-  nexus_fqdn: "nexus.domain.com"
+  nexus_fqdn: "nexus.<domain.com>"
   nexus_docker_repo_listening_port: "8082"
-  vault_fqdn: "vault.domain.com"
+  vault_fqdn: "vault.<domain.com>"
   vault_gitlab_token: "GT0LcT63hC8QEVfIvrh3A"
-  vault_gitlab_url: "https://gitlab.domain.com/api/v4/projects/1/variables"
+  vault_gitlab_url: "https://gitlab.<domain.com>/api/v4/projects/1/variables"
   vault_root_token_key: "VAULT_ROOT_TOKEN"
   vault_listening_port: "8200"
 
 gitlab_hosts:
-  gitlab_server: "gitlabprivateip"
+  gitlab_server: "<gitlabprivateip>"
 
 gitlab_hosts_var_maps:
-  gitlab_server: "gitlab.domain.com"
+  gitlab_server: "gitlab.<domain.com>"
   letsencrypt_email: testing@mojalabs.io
   backup_ebs_volume_id: "disk-1"
   enable_github_oauth: "false"
   enable_pages: "false"
   github_oauth_id: ""
   github_oauth_secret: ""
-  gitlab_version: "17.7.0"
+  gitlab_version: "17.7.7"
   letsencrypt_endpoint: "https://acme-v02.api.letsencrypt.org/directory"
   s3_password: "umDLfd1JsU03PZEuLjH6"
-  s3_server_url: "http://minio.domain.com:9000"
+  s3_server_url: "http://minio.<domain.com>:9000"
   s3_username: "gitlab"
-  server_hostname: "gitlab.domain.com"
+  server_hostname: "gitlab.<domain.com>"
   server_password: "glpvzuxdufB7308s"
   server_token: "GT0LcT63hC8QEVfIvrh3A"
   smtp_server_address: ""
@@ -265,17 +265,17 @@ gitlab_hosts_var_maps:
   smtp_server_user: ""
 
 netmaker_hosts:
-  netmaker_server: "netmakerpublicip"
+  netmaker_server: "<netmakerpublicip>"
 
 netmaker_hosts_var_maps:
   enable_oauth: "true"
   netmaker_admin_password: "P9fnKk4k781JYY1rLgSp1bAI0nqbje"
-  netmaker_base_domain: "netmaker.domain.com"
+  netmaker_base_domain: "netmaker.<domain.com>"
   netmaker_control_network_name: "cntrlctr"
   netmaker_master_key: "jdRryaXzsB6XO4tXvOM6nmabce2573"
   netmaker_mq_pw: "Yt8xgFouNWOAX40sRaeFYuxjeaC4bu"
-  netmaker_oidc_redirect_url: "https://api.netmaker.domain.com/api/oauth/callback"
-  netmaker_oidc_issuer: "https://gitlab.domain.com"
+  netmaker_oidc_redirect_url: "https://api.netmaker.<domain.com>/api/oauth/callback"
+  netmaker_oidc_issuer: "https://gitlab.<domain.com>"
    ```
 
 2. Set environment variables:
