@@ -229,7 +229,7 @@ docker_hosts_var_maps:
   minio_root_password: "691ZOAohxjKh_1MZ2_UU"
   minio_root_user: "admin"
   minio_server_host: "minio.<domain.com>"
-  nexus_admin_password: "VG0Qjv8t3lSIfXJiQQnA"
+  new_admin_pw: "VG0Qjv8t3lSIfXJiQQnA"
   nexus_fqdn: "nexus.<domain.com>"
   nexus_docker_repo_listening_port: "8082"
   vault_fqdn: "vault.<domain.com>"
@@ -244,7 +244,7 @@ gitlab_hosts:
 gitlab_hosts_var_maps:
   gitlab_server: "gitlab.<domain.com>"
   letsencrypt_email: testing@mojalabs.io
-  backup_ebs_volume_id: "disk-1"
+  backup_ebs_volume_id: "<external_disk_name>"  #eg "disk-1"  #lsblk -o NAME,SIZE,MOUNTPOINT,SERIAL
   enable_github_oauth: "false"
   enable_pages: "false"
   github_oauth_id: ""
